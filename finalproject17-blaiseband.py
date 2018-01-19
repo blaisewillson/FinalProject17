@@ -27,6 +27,16 @@ charactermon = 's'
 monsterlvl = 1
 wait = 0
 
+def titlescreen():
+    screen.addstr(0, 5, ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
+    screen.addstr(1, 5, '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
+    screen.addstr(2, 5, '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
+    screen.addstr(3, 5, '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
+    screen.addstr(4, 5, '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
+    start = screen.getch()
+    if start == -2:
+        return 0
+
 def endgame():
     screen.clear()
     screen.addstr(0,0,'you have lost')
@@ -41,6 +51,7 @@ def fight(turn):
     global playerY
     global monsterlvl
     global health
+    global healthmax
     global gold
     global wait
     monster = 'snake'
@@ -77,15 +88,17 @@ def fight(turn):
             screen.addstr(0, 17, '%s'%(health))
             screen.addstr(0, 0, 'gold:')
             screen.addstr(0, 5, '%s'%(gold))
+            coninv = False
             char = screen.getch()
             if char == 105:
                 while coninv == False:
                     coninv = inventory()
                 coninv = False
         screen.addstr(0, 20, 'You have defeated the %s'%(monster))
-        screen.addstr(1, 20, 'You have recieved %s'%(monsterlvl*1.5))
-        gold = gold * 1.5
-        nothing = screen.getch
+        screen.addstr(1, 20, 'You have recieved %s'%(monsterlvl*2))
+        healthmax = healthmax + 5
+        gold = gold * 2
+        nothing = screen.getch()
         wait = 1
 
 def monsterMove():
@@ -251,6 +264,8 @@ screen = curses.initscr()
 curses.noecho()
 curses.cbreak()
 screen.keypad(True)
+
+titlescreen()
 
 screen.addstr(0, 0, 'gold:')
 screen.addstr(0, 5, '%s'%(gold))
