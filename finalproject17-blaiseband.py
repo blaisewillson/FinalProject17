@@ -2,7 +2,7 @@ import numpy
 import curses
 import random
 import sys
-import time
+
 
 # make sure to use screen.addstr print doesn't work with curses
 
