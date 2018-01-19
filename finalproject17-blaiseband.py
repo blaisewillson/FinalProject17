@@ -33,16 +33,10 @@ def titlescreen():
     screen.addstr(2, 5, '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
     screen.addstr(3, 5, '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
     screen.addstr(4, 5, '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
+    screen.addstr(6, 5, '                   Press any key to start                     ')
     start = screen.getch()
     if start == -2:
         return 0
-
-def endgame():
-    screen.clear()
-    screen.addstr(0,0,'you have lost')
-    time.sleep(10)
-    sys.exit()
-
 
 def fight(turn):
     global monsterX
@@ -76,8 +70,12 @@ def fight(turn):
                 health = health - damage
                 screen.addstr(0, 20, '| In Battle | The %s has hit you for %s damage!'%(monster, damage))
                 screen.addstr(1, 20, '            | The %s has %s health'%(monster, monsterhp))
-                if health <=0:
-                    endgame()
+                if health <= 0:
+                    screen.clear()
+                    screen.addstr(0, 5, 'you have lost. press any key to end the game')
+                    quit = screen.getch()
+                    if quit != -122:
+                        sys.exit()
                 turn = 'player'
             elif turn == 'player':
                 monsterhp = monsterhp - 5
@@ -94,10 +92,17 @@ def fight(turn):
                 while coninv == False:
                     coninv = inventory()
                 coninv = False
-        screen.addstr(0, 20, 'You have defeated the %s'%(monster))
-        screen.addstr(1, 20, 'You have recieved %s'%(monsterlvl*2))
         healthmax = healthmax + 5
-        gold = gold * 2
+        gold = gold + monsterlvl * 5
+        monsterlvl = monsterlvl + 1
+        screen.clear()
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+        screen.addstr(0, 10, 'health:')
+        screen.addstr(0, 17, '%s'%(health))
+        screen.addstr(0, 0, 'gold:')
+        screen.addstr(0, 5, '%s'%(gold))
+        screen.addstr(0, 20, '| You have defeated the %s'%(monster))
+        screen.addstr(1, 20, '| You have recieved %s gold'%(monsterlvl*5))
         nothing = screen.getch()
         wait = 1
 
