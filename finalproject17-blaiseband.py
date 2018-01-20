@@ -14,155 +14,183 @@ map1 = numpy.array([['#','#','#','#','#','#','#','#'],
    	 	            ['#','.','.','.','.','#','.','#'],
    	 	            ['#','$','.','.','.','#','s','#'],
    	 	            ['#','#','#','#','#','#','#','#']])
-playerX = 2
-playerY = 2
-monsterX = 6
-monsterY = 6
-potion = 1
-health = 20
-healthmax = 20
+
+currentmap = map1
 coninv = False
-gold = 100
-charactermon = 's'
-monsterlvl = 1
 wait = 0
 
+class Monster():
+	monster = 'snake'       
+	monsterX = 6
+	monsterY = 6
+	charactermon = 's'
+	monsterlvl = 1
+
+class Player():
+	playerX = 2
+	playerY = 2
+	consumables = {'potion': {'amount': 1, 'cost': 50}, 'better potion': {'amount': 0, 'cost': 100}, 'full heal': {'amount': 0, 'cost': 200}}
+	equipable = {'basic sword':{'has': True, 'dmg': 1, 'weight': 0, 'equiped': True},'broadsword':{'has': False, 'dmg': 3, 'weight': -1, 'equiped': False},'shortsword':{'has': False, 'dmg': 2, 'weight': 1, 'equiped': False}, 'sheild':{'has': False, 'defence': 5}, 'big sheild':{'has': False, 'defence': 10}},
+	health = 20
+	healthmax = 20
+	gold = 100
+	
+	#def __init__(self, name):
+		#self.name = name
+		
+	#def characterStat(self)
+			
+
+def playerset():
+	player = Player()
+	
+#	player.characterStat()
+
 def titlescreen():
-    screen.addstr(0, 5, ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
-    screen.addstr(1, 5, '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
-    screen.addstr(2, 5, '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
-    screen.addstr(3, 5, '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
-    screen.addstr(4, 5, '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
-    screen.addstr(6, 5, '                   Press any key to start                     ')
+    screen.addstr(0, 3, ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
+    screen.addstr(1, 3, '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
+    screen.addstr(2, 3, '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
+    screen.addstr(3, 3, '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
+    screen.addstr(4, 3, '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
+    screen.addstr(6, 3, '                   Press any key to start                     ')
     start = screen.getch()
     if start == -2:
         return 0
 
 def fight(turn):
-    global monsterX
-    global monsterY
-    global playerX
-    global playerY
-    global monsterlvl
-    global health
-    global healthmax
-    global gold
+    #global Monster.monsterX
+    #global Monster.monsterY
+    #global Player.playerX
+    #global Player.playerY
+    #global Monster.monsterlvl
+    #global Player.health
+    #global Player.healthmax
+    #global Player.gold
     global wait
-    monster = 'snake'
-    monsterhp = monsterlvl * 10
+    #global Monster.monster
+    Monster.monsterhp = Monster.monsterlvl * 10
 
-    if monsterX == playerX + 1 and monsterY == playerY or monsterX == playerX and monsterY == playerY -1 or monsterY == playerY + 1 and monsterX == playerX or monsterY == playerY - 1 and monsterX == playerX:
-        if turn == 'player':
-            screen.clear()
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-            screen.addstr(0, 10, 'health:')
-            screen.addstr(0, 17, '%s'%(health))
-            screen.addstr(0, 20, '| It is a level %s %s with %s health.'%(monsterlvl, monster, monsterhp))
-            screen.addstr(0, 0, 'gold:')
-            screen.addstr(0, 5, '%s'%(gold))
-            screen.getch()
+    if Monster.monsterX == Player.playerX + 1 and Monster.monsterY == Player.playerY or Monster.monsterX == Player.playerX and Monster.monsterY == Player.playerY -1 or Monster.monsterY == Player.playerY + 1 and Monster.monsterX == Player.playerX or Monster.monsterY == Player.playerY - 1 and Monster.monsterX == Player.playerX:
+        screen.clear()
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+        screen.addstr(0, 10, 'health:')
+        screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
+        screen.addstr(0, 26, '| It is a level %s %s with %s health.'%(Monster.monsterlvl, Monster.monster, Monster.monsterhp))
+        screen.addstr(0, 0, 'gold:')
+        screen.addstr(0, 5, '%s'%(Player.gold))
+        screen.getch()
 
-        while monsterhp > 0:
+        while Monster.monsterhp > 0:
             screen.clear()
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
             if turn == 'monster':
-                damage = random.randint(monsterlvl*5, monsterlvl*7)
-                health = health - damage
-                screen.addstr(0, 20, '| In Battle | The %s has hit you for %s damage!'%(monster, damage))
-                screen.addstr(1, 20, '            | The %s has %s health'%(monster, monsterhp))
-                if health <= 0:
+                damage = random.randint((Monster.monsterlvl)*5, (Monster.monsterlvl)*7)
+                Player.health = Player.health - damage
+                screen.addstr(0, 26, '| In Battle | The %s has hit you for %s damage!'%(Monster.monster, damage))
+                screen.addstr(1, 26, '            | The %s has %s health'%(Monster.monster, Monster.monsterhp))
+                if Player.health <= 0:
                     screen.clear()
-                    screen.addstr(0, 5, 'you have lost. press any key to end the game')
+                    screen.addstr(0, 0,  '                 ______')
+                    screen.addstr(1, 0,  '           _____/      \\_____')
+                    screen.addstr(2, 0,  '          |  _     ___   _   ||')
+                    screen.addstr(3, 0,  '          | | \     |   | \  ||')
+                    screen.addstr(4, 0,  '          | |  |    |   |  | ||')
+                    screen.addstr(5, 0,  '          | |_/     |   |_/  ||')
+                    screen.addstr(6, 0,  '          | | \     |   |    ||')
+                    screen.addstr(7, 0,  '          | |  \    |   |    ||')
+                    screen.addstr(8, 0,  '          | |   \. _|_. | .  ||')
+                    screen.addstr(9, 0,  '          |                  ||')
+                    screen.addstr(10, 0, '          |                  ||')
+                    screen.addstr(11, 0, '  *       | *   **    * **   |**      **')
+                    screen.addstr(12, 0, '   \))..\,,/.,(//,,..,,\||(,,.,\\,.((//')
                     quit = screen.getch()
                     if quit != -122:
                         sys.exit()
                 turn = 'player'
             elif turn == 'player':
-                monsterhp = monsterhp - 5
-                screen.addstr(0, 20, '| In Battle | You have hit the monster for 5 damage!')
-                screen.addstr(1, 20, '            | The %s has %s health'%(monster, monsterhp))
+                Monster.monsterhp = Monster.monsterhp - 5
+                screen.addstr(0, 26, '| In Battle | You have hit the monster for 5 damage!')
+                screen.addstr(1, 26, '            | The %s has %s health'%(Monster.monster, Monster.monsterhp))
                 turn = 'monster'
             screen.addstr(0, 10, 'health:')
-            screen.addstr(0, 17, '%s'%(health))
+            screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
             screen.addstr(0, 0, 'gold:')
-            screen.addstr(0, 5, '%s'%(gold))
+            screen.addstr(0, 5, '%s'%(Player.gold))
             coninv = False
             char = screen.getch()
             if char == 105:
                 while coninv == False:
                     coninv = inventory()
                 coninv = False
-        healthmax = healthmax + 5
-        gold = gold + monsterlvl * 5
-        monsterlvl = monsterlvl + 1
+        Player.healthmax = Player.healthmax + 5
+        Player.gold = Player.gold + Monster.monsterlvl * 5
+        Monster.monsterlvl = Monster.monsterlvl + 1
+        Player.health = Player.healthmax
         screen.clear()
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
         screen.addstr(0, 10, 'health:')
-        screen.addstr(0, 17, '%s'%(health))
+        screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
         screen.addstr(0, 0, 'gold:')
-        screen.addstr(0, 5, '%s'%(gold))
-        screen.addstr(0, 20, '| You have defeated the %s'%(monster))
-        screen.addstr(1, 20, '| You have recieved %s gold'%(monsterlvl*5))
+        screen.addstr(0, 5, '%s'%(Player.gold))
+        screen.addstr(0, 26, '| You have defeated the %s'%(Monster.monster))
+        screen.addstr(1, 26, '| You have recieved %s gold'%(Monster.monsterlvl*5))
         nothing = screen.getch()
         wait = 1
 
 def monsterMove():
-    global charactermon
-    global map1
-    global monsterX
-    global monsterY
+    #global Monster.charactermon
+    global currentmap
+    #global Monster.monsterX
+    #global Monster.monsterY
     global wait
     if wait == 1:
-        map1[monsterY][monsterX] = '.'
-        if map1[monsterY][monsterX + 1] != '#':
-            monsterX = monsterX + 1
-        elif map1[monsterY][monsterX - 1] != '#':
-            monsterX = monsterX - 1
-        elif map1[monsterY + 1][monsterX] != '#':
-            monsterY = monsterY + 1
-        elif map1[monsterY - 1][monsterX] != '#':
-            monsterY = monsterY - 1
+        currentmap[Monster.monsterY][Monster.monsterX] = '.'
+        if currentmap[Monster.monsterY][Monster.monsterX + 1] != '#':
+            Monster.monsterX = Monster.monsterX + 1
+        elif currentmap[Monster.monsterY][Monster.monsterX - 1] != '#':
+            Monster.monsterX = Monster.monsterX - 1
+        elif currentmap[Monster.monsterY + 1][Monster.monsterX] != '#':
+            Monster.monsterY = Monster.monsterY + 1
+        elif currentmap[Monster.monsterY - 1][Monster.monsterX] != '#':
+            Monster.monsterY = Monster.monsterY - 1
         wait = 0
         return 0
     suc = 0
     while suc == 0:
         rand = random.randint(0, 3)
-        if rand == 0 and map1[monsterY][monsterX + 1] != '#':
+        if rand == 0 and currentmap[Monster.monsterY][Monster.monsterX + 1] != '#':
             suc = 1
-            map1[monsterY][monsterX + 1] = charactermon
-            map1[monsterY][monsterX] = '.'
-            monsterX = monsterX + 1
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-        elif rand == 1 and map1[monsterY][monsterX - 1] != '#':
+            currentmap[Monster.monsterY][Monster.monsterX + 1] = Monster.charactermon
+            currentmap[Monster.monsterY][Monster.monsterX] = '.'
+            Monster.monsterX = Monster.monsterX + 1
+            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+        elif rand == 1 and currentmap[Monster.monsterY][Monster.monsterX - 1] != '#':
             suc = 1
-            map1[monsterY][monsterX - 1] = charactermon
-            map1[monsterY][monsterX] = '.'
-            monsterX = monsterX - 1
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-        elif rand == 2 and map1[monsterY - 1][monsterX] != '#':
+            currentmap[Monster.monsterY][Monster.monsterX - 1] = Monster.charactermon
+            currentmap[Monster.monsterY][Monster.monsterX] = '.'
+            Monster.monsterX = Monster.monsterX - 1
+            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+        elif rand == 2 and currentmap[Monster.monsterY - 1][Monster.monsterX] != '#':
             suc = 1
-            map1[monsterY - 1][monsterX] = charactermon
-            map1[monsterY][monsterX] = '.'
-            monsterY = monsterY - 1
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-        elif rand == 2 and map1[monsterY + 1][monsterX] != '#':
+            currentmap[Monster.monsterY - 1][Monster.monsterX] = Monster.charactermon
+            currentmap[Monster.monsterY][Monster.monsterX] = '.'
+            Monster.monsterY = Monster.monsterY - 1
+            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+        elif rand == 2 and currentmap[Monster.monsterY + 1][Monster.monsterX] != '#':
             suc = 1
-            map1[monsterY + 1][monsterX] = charactermon
-            map1[monsterY][monsterX] = '.'
-            monsterY = monsterY + 1
-            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+            currentmap[Monster.monsterY + 1][Monster.monsterX] = Monster.charactermon
+            currentmap[Monster.monsterY][Monster.monsterX] = '.'
+            Monster.monsterY = Monster.monsterY + 1
+            screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
 
 def buy():
-    global map1
-    global playerX
-    global playerY
-    global gold
-    global potion
-    amount = 48
-    while amount == 48:
+    #global Player.gold
+    #global Player.consumables['potion']['amount']
+    amount = 0
+    while amount >= 0:
         screen.clear()
         screen.addstr(0, 0, 'gold:')
-        screen.addstr(0, 6, '%s'%(gold))
+        screen.addstr(0, 6, '%s'%(Player.gold))
         screen.addstr(0, 10, '| Store | e:exit')
         screen.addstr(1, 0, 'Press the number next to the item you want to buy')
         screen.addstr(2, 0, '1. potion: 50 gold')
@@ -171,120 +199,127 @@ def buy():
             return 0
         screen.clear()
         screen.addstr(1, 0, 'How many?')
-        amount = screen.getch()
-        if itemchoice == 49 and gold >= 50 * (amount - 48) and amount != 48:
-        	potion = potion + (amount - 48)
-        	gold = gold - 50 * (amount - 48)
+        curses.curs_set(1)
+        curses.echo()
+        amount = int(screen.getstr())
+        if itemchoice == 49 and Player.gold >= 50 * amount:
+        	Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] + amount
+        	Player.gold = Player.gold - (Player.consumables['potion']['cost'] * amount)	
+        curses.curs_set(0)
+        curses.noecho()
 
 def store(direction):
-    global map1
-    global playerX
-    global playerY
-    if map1[playerY - 1][playerX] == '$' and direction == 'up':
+    global currentmap
+    #global Player.playerX
+    #global Player.playerY
+    if currentmap[Player.playerY - 1][Player.playerX] == '$' and direction == 'up':
         buy()
         return 1
-    elif map1[playerY + 1][playerX] == '$' and direction == 'down':
+    elif currentmap[Player.playerY + 1][Player.playerX] == '$' and direction == 'down':
         buy()
         return 1
-    elif map1[playerY][playerX + 1] == '$' and direction == 'right':
+    elif currentmap[Player.playerY][Player.playerX + 1] == '$' and direction == 'right':
         buy()
         return 1
-    elif map1[playerY][playerX - 1] == '$' and direction == 'left':
+    elif currentmap[Player.playerY][Player.playerX - 1] == '$' and direction == 'left':
         buy()
         return 1
     return 2
 
 def move(char):
-    global map1
-    global playerX
-    global playerY
-    if char == curses.KEY_RIGHT and map1[playerY][playerX + 1] != '#':
+    global currentmap
+    #global Player.playerX
+    #global Player.playerY
+    if char == curses.KEY_RIGHT and currentmap[Player.playerY][Player.playerX + 1] != '#':
         end = store('right')
         if end == 1:
             end = 2
             return 0
-        map1[playerY][playerX + 1] = '@'
-        map1[playerY][playerX] = '.'
-        playerX = playerX + 1
+        currentmap[Player.playerY][Player.playerX + 1] = '@'
+        currentmap[Player.playerY][Player.playerX] = '.'
+        Player.playerX = Player.playerX + 1
         fight('player')
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-    elif char == curses.KEY_LEFT and map1[playerY][playerX - 1] != '#':
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+    elif char == curses.KEY_LEFT and currentmap[Player.playerY][Player.playerX - 1] != '#':
         end = store('left')
         if end == 1:
             end = 2
             return 0
-        map1[playerY][playerX - 1] = '@'
-        map1[playerY][playerX] = '.'
-        playerX = playerX - 1
+        currentmap[Player.playerY][Player.playerX - 1] = '@'
+        currentmap[Player.playerY][Player.playerX] = '.'
+        Player.playerX = Player.playerX - 1
         fight('player')
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-    elif char == curses.KEY_UP and map1[playerY - 1][playerX] != '#':
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+    elif char == curses.KEY_UP and currentmap[Player.playerY - 1][Player.playerX] != '#':
         end = store('up')
         if end == 1:
             end = 2
             return 0
-        map1[playerY - 1][playerX] = '@'
-        map1[playerY][playerX] = '.'
-        playerY = playerY - 1
+        currentmap[Player.playerY - 1][Player.playerX] = '@'
+        currentmap[Player.playerY][Player.playerX] = '.'
+        Player.playerY = Player.playerY - 1
         fight('player')
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
-    elif char == curses.KEY_DOWN and map1[playerY + 1][playerX] != '#':
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+    elif char == curses.KEY_DOWN and currentmap[Player.playerY + 1][Player.playerX] != '#':
         end = store('down')
         if end == 1:
             end = 2
             return 0
-        map1[playerY + 1][playerX] = '@'
-        map1[playerY][playerX] = '.'
-        playerY = playerY + 1
+        currentmap[Player.playerY + 1][Player.playerX] = '@'
+        currentmap[Player.playerY][Player.playerX] = '.'
+        Player.playerY = Player.playerY + 1
         fight('player')
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
     monsterMove()
     fight('monster')
+
 def inventory():
-    global potion
-    global health
+    #global Player.consumables['potion']['amount']
+    #global Player.health
     screen.clear()
     screen.addstr(0, 0, 'gold:')
-    screen.addstr(0, 5, '%s'%(gold))
-    screen.addstr(0, 10, '| Inventory | e:exit')
+    screen.addstr(0, 5, '%s'%(Player.gold))
+    screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
+    screen.addstr(0, 26, '| Inventory | e:exit')
     screen.addstr(1, 0, 'Press the number next to the item you want to use')
-    screen.addstr(2, 0, '1. potions: %s'%(potion))
+    screen.addstr(2, 0, '1. potions: %s'%(Player.consumables['potion']['amount']))
     itemchoice = screen.getch()
     if itemchoice == 101:
         return True
-    elif itemchoice == 49 and potion != 0:
-        if health + 10 >= healthmax and health != healthmax:
-            health = healthmax
-            potion = potion - 1
-        elif health + 10 < healthmax:
-            health = health + 10
-            potion = potion - 1
-        elif health == healthmax:
+    elif itemchoice == 49 and Player.consumables['potion']['amount'] != 0:
+        if Player.health + 10 >= Player.healthmax and Player.health != Player.healthmax:
+            Player.health = Player.healthmax
+            Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
+        elif Player.health + 10 < Player.healthmax:
+            Player.health = Player.health + 10
+            Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
+        elif Player.health == Player.healthmax:
             return False
         return True
     else:
         return False
 
+sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=20, cols=68))
+
 screen = curses.initscr()
+
 curses.noecho()
 curses.cbreak()
 screen.keypad(True)
+curses.curs_set(0)
 
 titlescreen()
-
-screen.addstr(0, 0, 'gold:')
-screen.addstr(0, 5, '%s'%(gold))
-screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+playerset()
 
 try:
     while True:
         screen.clear()
         screen.addstr(0, 10, 'health:')
-        screen.addstr(0, 17, '%s'%(health))
-        screen.addstr(0, 20, '| Commands: i:inventory, h:help')
+        screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
+        screen.addstr(0, 26, '| Commands: i:inventory, h:help')
         screen.addstr(0, 0, 'gold:')
-        screen.addstr(0, 5, '%s'%(gold))
-        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in map1))
+        screen.addstr(0, 5, '%s'%(Player.gold))
+        screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
         char = screen.getch()
         move(char)
         if char == 105:
