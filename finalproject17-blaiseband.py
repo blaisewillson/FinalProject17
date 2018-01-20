@@ -6,14 +6,14 @@ import sys
 
 # make sure to use screen.addstr print doesn't work with curses
 
-map1 = numpy.array([['#','#','#','#','#','#','#','#'],
-   	 	            ['#','.','.','.','#','.','.','#'],
-   	 	            ['#','.','@','.','.','.','.','#'],
-   	 	            ['#','.','.','.','#','.','.','#'],
-   	 	            ['#','#','.','#','#','#','.','#'],
-   	 	            ['#','.','.','.','.','#','.','#'],
-   	 	            ['#','$','.','.','.','#','s','#'],
-   	 	            ['#','#','#','#','#','#','#','#']])
+map1 = numpy.array([['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+   	 	    ['#','.','.','.','#','.','.','#','#','#','#','#','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','#','.','.','.','#','#','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','#'],
+   	 	    ['#','.','@','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','.','.','.','.','.','.','.','#','.','.','.','.','.','.','#'],
+   	 	    ['#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','#','#','.','#','#','#','.','.','.','.','#','.','.','.','.','.','.','.','#','.','#','.','#','>','#','.','#','#','.','#','#','.','#','.','.','.','.','.','#','#'],
+   	 	    ['#','#','.','#','#','#','.','.','.','.','.','.','#','#','#','.','#','#','#','#','.','#','.','.','.','.','#','#','#','#','#','.','.','.','.','.','#','.','#','.','#','.','#','.','.','.','#','.','#','.','.','.','.','.','#','#'],
+   	 	    ['#','.','.','.','.','#','.','#','#','#','#','.','#','#','#','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','#','.','.','.','#','#','.','.','#','.','#','.','#','.','.','.','#','.','#','#','#','.','#','.','#','#'],
+   	 	    ['#','$','.','.','.','#','s','#','#','#','#','.','.','.','.','.','#','#','.','.','.','.','.','.','.','.','#','.','.','.','#','.','.','.','#','.','.','#','#','.','.','.','#','.','.','|','#','.','.','.','.','.','#','.','.','#'],
+   	 	    ['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
 
 currentmap = map1
 coninv = False
@@ -47,12 +47,18 @@ def playerset():
 #	player.characterStat()
 
 def titlescreen():
-    screen.addstr(0, 3,  ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
-    screen.addstr(1, 3,  '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
-    screen.addstr(2, 3,  '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
-    screen.addstr(3, 3,  '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
-    screen.addstr(4, 3,  '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
-    screen.addstr(10, 3, '                   Press any key to start                     ')
+    screen.addstr(0, 9,  ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
+    screen.addstr(1, 9,  '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
+    screen.addstr(2, 9,  '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
+    screen.addstr(3, 9,  '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
+    screen.addstr(4, 9,  '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
+    screen.addstr(7, 9,  '                      By: Blaise Willson                      ')
+    screen.addstr(10, 9, '                    Press any key to start                    ')
+    screen.addstr(11, 3, '           /\                                                 /\ ')
+    screen.addstr(12, 3, ' _         )( ______________________   ______________________ )(         _ ')     
+    screen.addstr(13, 3, '(_)|||||||(**)______________________> <______________________(**)|||||||(_)')
+    screen.addstr(14, 3, '           )(                                                 )(')
+    screen.addstr(15, 3, '           \/                                                 \/ ')
     start = screen.getch()
     if start == -2:
         return 0
@@ -126,12 +132,12 @@ def fight(turn):
         screen.addstr(0, 26, '| You have defeated the %s'%(Monster.monster))
         screen.addstr(1, 26, '| You have recieved %s gold'%(Monster.monsterlvl*5))
         nothing = screen.getch()
-        wait = 1
+        wait = 3
 
 def monsterMove():
     global currentmap
     global wait
-    if wait == 1:
+    if wait >= 1:
         currentmap[Monster.monsterY][Monster.monsterX] = '.'
         if currentmap[Monster.monsterY][Monster.monsterX + 1] != '#':
             Monster.monsterX = Monster.monsterX + 1
@@ -141,7 +147,7 @@ def monsterMove():
             Monster.monsterY = Monster.monsterY + 1
         elif currentmap[Monster.monsterY - 1][Monster.monsterX] != '#':
             Monster.monsterY = Monster.monsterY - 1
-        wait = 0
+        wait = wait - 1
         return 0
     suc = 0
     while suc == 0:
@@ -220,7 +226,8 @@ def move(char):
         currentmap[Player.playerY][Player.playerX + 1] = '@'
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerX = Player.playerX + 1
-        fight('player')
+        if wait == 0:
+        	fight('player')
         screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
     elif char == curses.KEY_LEFT and currentmap[Player.playerY][Player.playerX - 1] != '#':
         end = store('left')
@@ -230,7 +237,8 @@ def move(char):
         currentmap[Player.playerY][Player.playerX - 1] = '@'
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerX = Player.playerX - 1
-        fight('player')
+        if wait == 0:
+        	fight('player')
         screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
     elif char == curses.KEY_UP and currentmap[Player.playerY - 1][Player.playerX] != '#':
         end = store('up')
@@ -240,7 +248,8 @@ def move(char):
         currentmap[Player.playerY - 1][Player.playerX] = '@'
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerY = Player.playerY - 1
-        fight('player')
+        if wait == 0:
+        	fight('player')
         screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
     elif char == curses.KEY_DOWN and currentmap[Player.playerY + 1][Player.playerX] != '#':
         end = store('down')
@@ -250,7 +259,8 @@ def move(char):
         currentmap[Player.playerY + 1][Player.playerX] = '@'
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerY = Player.playerY + 1
-        fight('player')
+        if wait == 0:
+        	fight('player')
         screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
     monsterMove()
     fight('monster')
@@ -279,7 +289,7 @@ def inventory():
     else:
         return False
 
-sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=20, cols=68))
+sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=20, cols=80))
 
 screen = curses.initscr()
 
