@@ -47,27 +47,18 @@ def playerset():
 #	player.characterStat()
 
 def titlescreen():
-    screen.addstr(0, 3, ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
-    screen.addstr(1, 3, '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
-    screen.addstr(2, 3, '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
-    screen.addstr(3, 3, '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
-    screen.addstr(4, 3, '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
-    screen.addstr(6, 3, '                   Press any key to start                     ')
+    screen.addstr(0, 3,  ' ____  _        _    ___ ____  _____ ____    _    _   _ ____  ')
+    screen.addstr(1, 3,  '| __ )| |      / \  |_ _/ ___|| ____| __ )  / \  | \ | |  _ \ ')
+    screen.addstr(2, 3,  '|  _ \| |     / _ \  | |\___ \|  _| |  _ \ / _ \ |  \| | | | |')
+    screen.addstr(3, 3,  '| |_) | |___ / ___ \ | | ___) | |___| |_) / ___ \| |\  | |_| |')
+    screen.addstr(4, 3,  '|____/|_____/_/   \_\___|____/|_____|____/_/   \_\_| \_|____/ ')
+    screen.addstr(10, 3, '                   Press any key to start                     ')
     start = screen.getch()
     if start == -2:
         return 0
 
 def fight(turn):
-    #global Monster.monsterX
-    #global Monster.monsterY
-    #global Player.playerX
-    #global Player.playerY
-    #global Monster.monsterlvl
-    #global Player.health
-    #global Player.healthmax
-    #global Player.gold
     global wait
-    #global Monster.monster
     Monster.monsterhp = Monster.monsterlvl * 10
 
     if Monster.monsterX == Player.playerX + 1 and Monster.monsterY == Player.playerY or Monster.monsterX == Player.playerX and Monster.monsterY == Player.playerY -1 or Monster.monsterY == Player.playerY + 1 and Monster.monsterX == Player.playerX or Monster.monsterY == Player.playerY - 1 and Monster.monsterX == Player.playerX:
@@ -138,10 +129,7 @@ def fight(turn):
         wait = 1
 
 def monsterMove():
-    #global Monster.charactermon
     global currentmap
-    #global Monster.monsterX
-    #global Monster.monsterY
     global wait
     if wait == 1:
         currentmap[Monster.monsterY][Monster.monsterX] = '.'
@@ -184,8 +172,6 @@ def monsterMove():
             screen.addstr(1, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
 
 def buy():
-    #global Player.gold
-    #global Player.consumables['potion']['amount']
     amount = 0
     while amount >= 0:
         screen.clear()
@@ -210,8 +196,6 @@ def buy():
 
 def store(direction):
     global currentmap
-    #global Player.playerX
-    #global Player.playerY
     if currentmap[Player.playerY - 1][Player.playerX] == '$' and direction == 'up':
         buy()
         return 1
@@ -228,8 +212,6 @@ def store(direction):
 
 def move(char):
     global currentmap
-    #global Player.playerX
-    #global Player.playerY
     if char == curses.KEY_RIGHT and currentmap[Player.playerY][Player.playerX + 1] != '#':
         end = store('right')
         if end == 1:
@@ -274,8 +256,6 @@ def move(char):
     fight('monster')
 
 def inventory():
-    #global Player.consumables['potion']['amount']
-    #global Player.health
     screen.clear()
     screen.addstr(0, 0, 'gold:')
     screen.addstr(0, 5, '%s'%(Player.gold))
