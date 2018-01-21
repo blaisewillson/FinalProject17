@@ -9,140 +9,269 @@ import sys
 floor1 = numpy.array([
 ['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
 ['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
-['#','.','@','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
-['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','>','.','.','#','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','>','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','^','.','.','#','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
 ['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
 ['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
-['#','$','.','.','.','#','s','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','|','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','$','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
 ['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
 
-currentmap = floor1
+floor2 = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','^','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','$','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','>','.','.','.','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+floor3 = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','#','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','>','#','.','.','^','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','$','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+floor4 = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','#','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','>','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','^','.','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','$','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+finalfloor = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','#','.','.','#','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','^','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','>','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','$','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+bossroom = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','^','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','$','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','#','#','#','#','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+
+village = numpy.array([
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
+['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','>','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','@','#'],
+['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#'],
+['#','.','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
+['#','$','.','.','.','#','.','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
+['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#']])
+
+
+currentmap = village
 coninv = False
 wait = 0
-floor = 'floor 1'
+floor = 'village'
+
+def won():
+	screen.clear()
+	screen.addstr(0, 0, 'u won')
+	won1 = screen.getch()
+	sys.exit()
 
 class Monster(object):
 	
-	def __init__(self):
-		self.monster = 'snake'       
-		self.monsterX = 6
-		self.monsterY = 6
-		self.charactermon = 's'
-		self.monsterlvl = 1
-		self.monsterhp = self.monsterlvl * 10
+	def __init__(self ,boss):
+		global currentmap
+		global floor
+		
+		if boss == False:
+			self.monsters = {'rat': {'char': 'r', 'dmg1': 1, 'dmg2': 2}, 'goblin': {'char': 'g', 'dmg1': 1, 'dmg2': 3}, 'wizard': {'char': 'w', 'dmg1': 3, 'dmg2': 6}, 'orgre': {'char': 'O', 'dmg1': 2, 'dmg2': 4}, 'cyclops': {'char': 'C', 'dmg1': 3, 'dmg2': 5}}		
+			self.monsterchoice = random.randint(0,4)
+			if self.monsterchoice == 0:
+				self.monster = 'rat' 
+			if self.monsterchoice == 1:
+				self.monster = 'goblin'
+			if self.monsterchoice == 2:
+				self.monster = 'wizard'
+			if self.monsterchoice == 3:
+				self.monster = 'orgre'
+			if self.monsterchoice == 4:
+				self.monster = 'cyclops'	   			   			   			   			      
+			self.monsterX = 0
+			self.monsterY = 0
+			while currentmap[self.monsterY][self.monsterX] != '.': 
+				self.monsterX = random.randint(1, 77)
+				self.monsterY = random.randint(1, 6)						
+			if floor != 'village':
+				currentmap[self.monsterY][self.monsterX] = self.monsters[self.monster]['char']
+			self.charactermon = self.monsters[self.monster]['char']
+			if floor == 'village':
+				self.monsterlvl = 0
+			elif floor == 'floor 1':
+				self.monsterlvl = 1
+			elif floor == 'floor 2':
+				self.monsterlvl = 3
+			elif floor == 'floor 3':
+				self.monsterlvl = 6
+			elif floor == 'floor 4':
+				self.monsterlvl = 9
+			elif floor == 'final floor':
+				self.monsterlvl = 12	
+			self.monsterhp = self.monsterlvl * 10
+			self.basedmg1 = self.monsters[self.monster]['dmg1']
+			self.basedmg2 = self.monsters[self.monster]['dmg2']
+			self.boss = False
+		elif boss == True:
+			self.monster = 'King of Rats'
+			self.monsterX = 0
+			self.monsterY = 0
+			while currentmap[self.monsterY][self.monsterX] != '.': 
+				self.monsterX = random.randint(1, 77)
+				self.monsterY = random.randint(1, 6)
+			self.monsterlvl = 1
+			self.monsterhp = 150
+			self.basedmg1 = 30
+			self.basedmg2 = 60
+			self.charactermon = 'M'
+			self.boss = True
 	
 	def monsterMove(self):
 		global currentmap
 		global wait
-		suc = 0
-		if wait == 0:
-			while suc == 0:
-				rand = random.randint(0, 3)
-				if rand == 0 and currentmap[self.monsterY][self.monsterX + 1] != '#':
-					suc = 1
-					currentmap[self.monsterY][self.monsterX + 1] = self.charactermon
-					currentmap[self.monsterY][self.monsterX] = '.'
-					self.monsterX = self.monsterX + 1
-					drawmap()
-				elif rand == 1 and currentmap[self.monsterY][self.monsterX - 1] != '#':
-					suc = 1
-					currentmap[self.monsterY][self.monsterX - 1] = self.charactermon
-					currentmap[self.monsterY][self.monsterX] = '.'
-					self.monsterX = self.monsterX - 1
-					drawmap()
-				elif rand == 2 and currentmap[self.monsterY - 1][self.monsterX] != '#':
-					suc = 1
-					currentmap[self.monsterY - 1][self.monsterX] = self.charactermon
-					currentmap[self.monsterY][self.monsterX] = '.'
-					self.monsterY = self.monsterY - 1
-					drawmap()
-				elif rand == 2 and currentmap[self.monsterY + 1][self.monsterX] != '#':
-					suc = 1
-					currentmap[self.monsterY + 1][self.monsterX] = self.charactermon
-					currentmap[self.monsterY][self.monsterX] = '.'
-					self.monsterY = self.monsterY + 1
-					drawmap()
-		elif wait >= 1:
-			currentmap[self.monsterY][self.monsterX] = '.'
-			if currentmap[self.monsterY][self.monsterX + 1] != '#':
-				self.monsterX = self.monsterX + 1
-			elif currentmap[self.monsterY][self.monsterX - 1] != '#':
-				self.monsterX = self.monsterX - 1
-			elif currentmap[self.monsterY + 1][self.monsterX] != '#':
-				self.monsterY = self.monsterY + 1
-			elif currentmap[self.monsterY - 1][self.monsterX] != '#':
-				self.monsterY = self.monsterY - 1
-			wait = wait - 1
+		if floor != 'village' and self.monsterhp > 0:
+			suc = 0
+			if wait == 0:
+				while suc == 0:
+					rand = random.randint(0, 3)
+					if rand == 0 and currentmap[self.monsterY][self.monsterX + 1] != '#' and currentmap[self.monsterY][self.monsterX + 1] != '>' and currentmap[self.monsterY][self.monsterX + 1] != '^' and currentmap[self.monsterY][self.monsterX + 1] != '$':
+						suc = 1
+						currentmap[self.monsterY][self.monsterX + 1] = self.charactermon
+						currentmap[self.monsterY][self.monsterX] = '.'
+						self.monsterX = self.monsterX + 1
+						drawmap()
+					elif rand == 1 and currentmap[self.monsterY][self.monsterX - 1] != '#' and currentmap[self.monsterY][self.monsterX - 1] != '>' and currentmap[self.monsterY][self.monsterX - 1] != '^' and currentmap[self.monsterY][self.monsterX - 1] != '$':
+						suc = 1
+						currentmap[self.monsterY][self.monsterX - 1] = self.charactermon
+						currentmap[self.monsterY][self.monsterX] = '.'
+						self.monsterX = self.monsterX - 1
+						drawmap()
+					elif rand == 2 and currentmap[self.monsterY - 1][self.monsterX] != '#' and currentmap[self.monsterY - 1][self.monsterX] != '>' and currentmap[self.monsterY - 1][self.monsterX] != '^' and currentmap[self.monsterY - 1][self.monsterX] != '$':
+						suc = 1
+						currentmap[self.monsterY - 1][self.monsterX] = self.charactermon
+						currentmap[self.monsterY][self.monsterX] = '.'
+						self.monsterY = self.monsterY - 1
+						drawmap()
+					elif rand == 2 and currentmap[self.monsterY + 1][self.monsterX] != '#' and currentmap[self.monsterY + 1][self.monsterX] != '>' and currentmap[self.monsterY + 1][self.monsterX] != '^' and currentmap[self.monsterY + 1][self.monsterX] != '$':
+						suc = 1
+						currentmap[self.monsterY + 1][self.monsterX] = self.charactermon
+						currentmap[self.monsterY][self.monsterX] = '.'
+						self.monsterY = self.monsterY + 1
+						drawmap()
+			elif wait == 4:
+				currentmap[self.monsterY][self.monsterX] = '.'
+				self.monsterX = 0
+				self.monsterY = 0
+				while currentmap[self.monsterY][self.monsterX] != '.': 
+					self.monsterX = random.randint(1, 77)
+					self.monsterY = random.randint(1, 6)
+			
+			if wait > 0:	
+				wait = wait - 1
 
 	def fight(self, turn):
 		global wait
-
-		if self.monsterX == Player.playerX + 1 and self.monsterY == Player.playerY or self.monsterX == Player.playerX and self.monsterY == Player.playerY -1 or self.monsterY == Player.playerY + 1 and self.monsterX == Player.playerX or self.monsterY == Player.playerY and self.monsterX == Player.playerX - 1:
-			screen.clear()
-			drawmap()
-			dispinv()
-			disptop()
-			screen.addstr(5, 20, '**It is a level %s %s with %s health.**'%(self.monsterlvl, self.monster, self.monsterhp))
-			screen.getch()
-
-			while self.monsterhp > 0:
+		
+		if floor != 'village' and self.monsterhp > 0:
+			if self.monsterX == Player.playerX + 1 and self.monsterY == Player.playerY or self.monsterX == Player.playerX and self.monsterY == Player.playerY -1 or self.monsterY == Player.playerY + 1 and self.monsterX == Player.playerX or self.monsterY == Player.playerY and self.monsterX == Player.playerX - 1:
 				screen.clear()
-				dispinv()
 				drawmap()
-				if turn == 'monster':
-					damage = random.randint((self.monsterlvl)*1, (self.monsterlvl)*1)
-					Player.health = Player.health - damage
-					disptop()
-					screen.addstr(5, 9, '**The %s has hit you for %s damage! The %s has %s health**'%(self.monster, damage, self.monster, self.monsterhp))
-					if Player.health <= 0:
-						screen.clear()
-						screen.addstr(0, 0,  '                 ______')
-						screen.addstr(1, 0,  '           _____/      \\_____')
-						screen.addstr(2, 0,  '          |  _     ___   _   ||')
-						screen.addstr(3, 0,  '          | | \     |   | \  ||')
-						screen.addstr(4, 0,  '          | |  |    |   |  | ||')
-						screen.addstr(5, 0,  '          | |_/     |   |_/  ||')
-						screen.addstr(6, 0,  '          | | \     |   |    ||')
-						screen.addstr(7, 0,  '          | |  \    |   |    ||')
-						screen.addstr(8, 0,  '          | |   \. _|_. | .  ||')
-						screen.addstr(9, 0,  '          |                  ||')
-						screen.addstr(10, 0, '          |                  ||')
-						screen.addstr(11, 0, '  *       | *   **    * **   |**      **')
-						screen.addstr(12, 0, '   \))..\,,/.,(//,,..,,\||(,,.,\\,.((//')
-						quit = screen.getch()
-						if quit != -122:
-							sys.exit()
-					turn = 'player'
-				elif turn == 'player':
-					self.monsterhp = self.monsterhp - 5
-					screen.addstr(5, 7, '**You have hit the %s for 5 damage! The %s has %s health.**'%(self.monster, self.monster, self.monsterhp))
-					turn = 'monster'
+				dispinv()
 				disptop()
-				coninv = False
-				char = screen.getch()
-				if char == 105:
-					while coninv == False:
-						coninv = inventory()
-					coninv = False			
-			Player.lvl = Player.lvl + 1
-			Player.healthmax = Player.healthmax + 5
-			Player.gold = Player.gold + self.monsterlvl * 5
-			self.monsterlvl = self.monsterlvl + 1
-			self.monsterhp = self.monsterlvl * 10	
-			Player.health = Player.healthmax/2
-			screen.clear()
-			drawmap()
-			dispinv()
-			disptop()
-			screen.addstr(5, 13, '**You have defeated the %s! You have recieved %s gold'%(self.monster, (self.monsterlvl-1)*5))
-			nothing = screen.getch()
-			wait = 4
-			self.monsterMove()
+				if self.boss == False:
+					screen.addstr(5, 20, '**It is a level %s %s with %s health.**'%(self.monsterlvl, self.monster, self.monsterhp))
+				elif self.boss == True:
+					screen.addstr(5, 20, '**It is the King of Rats!  It has 150 health.')
+				screen.getch()
+	
+				while self.monsterhp > 0:
+					screen.clear()
+					dispinv()
+					drawmap()
+					if turn == 'monster':
+						damage = random.randint(self.monsterlvl + self.basedmg1 +(self.monsterlvl/2), self.monsterlvl + self.basedmg2 + (self.monsterlvl/2))
+						Player.health = Player.health - damage
+						disptop()
+						screen.addstr(5, 0, '**The %s has hit you for %s damage! The %s has %s health**'%(self.monster, damage, self.monster, self.monsterhp))
+						if Player.health <= 0:
+							screen.clear()
+							screen.addstr(0, 0,  '                 ______')
+							screen.addstr(1, 0,  '           _____/      \\_____')
+							screen.addstr(2, 0,  '          |  _     ___   _   ||')
+							screen.addstr(3, 0,  '          | | \     |   | \  ||')
+							screen.addstr(4, 0,  '          | |  |    |   |  | ||')
+							screen.addstr(5, 0,  '          | |_/     |   |_/  ||')
+							screen.addstr(6, 0,  '          | | \     |   |    ||    LVL: %s'%(Player.lvl))
+							screen.addstr(7, 0,  '          | |  \    |   |    ||    GOLD: %s'%(Player.gold))
+							screen.addstr(8, 0,  '          | |   \. _|_. | .  ||')
+							screen.addstr(9, 0,  '          |                  ||')
+							screen.addstr(10, 0, '          |                  ||')
+							screen.addstr(11, 0, '  *       | *   **    * **   |**      **')
+							screen.addstr(12, 0, '   \))..\,,/.,(//,,..,,\||(,,.,\\,.((//')
+							quit = screen.getch()
+							if quit != -122:
+								sys.exit()
+						turn = 'player'
+					elif turn == 'player':
+						self.monsterhp = self.monsterhp - Player.attack
+						if self.monsterhp > 0:
+							screen.addstr(5, 0, '**You have hit the %s for %s damage! The %s has %s health.**'%(self.monster, Player.attack, self.monster, self.monsterhp))
+						elif self.monsterhp <= 0:
+							screen.addstr(5, 0, '**You have hit the %s for %s damage! The %s has 0 health.**'%(self.monster, Player.attack, self.monster))		
+						turn = 'monster'
+					disptop()
+					coninv = False
+					char = screen.getch()
+					if char == 105:
+						while coninv == False:
+							coninv = inventory()
+						coninv = False			
+				if floor == 'boss room':
+					won()
+				
+				if Player.lvl < 100:
+					Player.lvl = Player.lvl + 1
+					Player.attack = Player.attack + 1
+					Player.defence = Player.defence +1
+				Player.healthmax = Player.healthmax + 5 + Player.defence
+				Player.gold = Player.gold + self.monsterlvl * 5
+				self.monsterlvl = self.monsterlvl + 1
+				if floor != 'boss room':
+					self.monsterhp = self.monsterlvl * 10	
+				Player.health = Player.healthmax
+				screen.clear()
+				drawmap()
+				dispinv()
+				disptop()
+				screen.addstr(5, 13, '**You have defeated the %s! You have recieved %s gold'%(self.monster, (self.monsterlvl-1)*5))
+				nothing = screen.getch()
+				wait = 4
+				self.monsterMove()
 
 
 class Player():
-	playerX = 2
-	playerY = 2
+	playerX = 77
+	playerY = 3
 	consumables = {'potion': {'amount': 1, 'cost': 50}, 'better potion': {'amount': 0, 'cost': 100}, 'full heal': {'amount': 0, 'cost': 200}}
 	equipable = {'basic sword': {'has': True, 'dmg': 1, 'equiped': 'equiped'}, 'broadsword': {'has': False, 'dmg': 3, 'equiped': 'unequiped'}, 'shield':{'has': False, 'defence': 5, 'equiped': 'unequiped'}, 'big shield': {'has': False, 'defence': 10, 'equiped': 'unequiped'}}
 	health = 20
@@ -150,7 +279,7 @@ class Player():
 	gold = 100
 	lvl = 1
 	attack = 6
-	defence = 5
+	defence = 0
 	
 	
 	#def __init__(self, name):
@@ -234,6 +363,185 @@ def disptop():
     
 def drawmap():
 	screen.addstr(6, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
+	
+def movedown():
+	global currentmap
+	global floor
+	global village
+	global floor1
+	global floor2
+	global floor3
+	global floor4
+	global finalfloor
+	global bossroom
+	global monster1
+	global monster2
+	global monster3
+	global monster4
+	global monster5
+	global boosmonster
+	
+	if floor == 'village':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		floor = 'floor 1'
+		currentmap = floor1
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		drawmap()
+	elif floor == 'floor 1':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		floor = 'floor 2'
+		currentmap = floor2
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		drawmap()
+	elif floor == 'floor 2':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		floor = 'floor 3'
+		currentmap = floor3
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		monster3 = Monster(False)
+		drawmap()
+	elif floor == 'floor 3':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		floor = 'floor 4'
+		currentmap = floor4
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		monster3 = Monster(False)
+		monster4 = Monster(False)
+		drawmap()
+	elif floor == 'floor 4':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		del monster4
+		floor = 'final floor'
+		currentmap = finalfloor
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		monster3 = Monster(False)
+		monster4 = Monster(False)
+		monster5 = Monster(False)
+		drawmap()
+	elif floor == 'final floor':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		del monster4
+		del monster5
+		floor = 'boss room'
+		currentmap = bossroom
+		currentmap[Player.playerY][Player.playerX] = '@'
+		bossmonster = Monster(True)
+		drawmap()		
+		
+def moveup():
+	global currentmap
+	global floor
+	global village
+	global floor1
+	global floor2
+	global floor3
+	global floor4
+	global finalfloor
+	global bossroom
+	global monster1
+	global monster2
+	global monster3
+	global monster4
+	global monster5
+	global bossmonster
+
+	if floor == 'floor 1':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		floor = 'village'
+		currentmap = village
+		currentmap[Player.playerY][Player.playerX] = '@'
+		drawmap()
+	elif floor == 'floor 2':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		floor = 'floor 1'
+		currentmap = floor1
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		drawmap()      
+	elif floor == 'floor 3':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		floor = 'floor 2'
+		currentmap = floor2
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		drawmap()	
+	elif floor == 'floor 4':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		del monster4
+		floor = 'floor 3'
+		currentmap = floor3
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		monster3 = Monster(False)
+		drawmap()
+	elif floor == 'final floor':
+		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del monster1
+		del monster2
+		del monster3
+		del monster4
+		del monster5
+		floor = 'floor 4'
+		currentmap = floor4
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		monster2 = Monster(False)
+		monster3 = Monster(False)
+		monster4 = Monster(False)
+		drawmap()
+	elif floor == 'boss room' and bossmonster.monsterhp <= 0:
+		currentmap[bossmonster.monsterY][bossmonster.monsterX] = '.'
+		currentmap[Player.playerY][Player.playerX] = '.'
+		del bossmonster
+		floor = 'final floor'
+		currentmap = village
+		currentmap[Player.playerY][Player.playerX] = '@'
+		monster1 = Monster(False)
+		drawmap()						
 
 def buy():
 	screen.clear()
@@ -289,8 +597,13 @@ def buy():
 			screen.move(18, 73)						
 	curses.curs_set(0)
 
-def store(direction):
+def check(direction):
     global currentmap
+    global floor
+    global village
+    global floor1
+    global monster1
+    
     if currentmap[Player.playerY - 1][Player.playerX] == '$' and direction == 'up':
         buy()
         return 1
@@ -303,12 +616,61 @@ def store(direction):
     elif currentmap[Player.playerY][Player.playerX - 1] == '$' and direction == 'left':
         buy()
         return 1
+    elif currentmap[Player.playerY - 1][Player.playerX] == '>' and direction == 'up':
+        movedown()
+        return 1
+    elif currentmap[Player.playerY + 1][Player.playerX] == '>' and direction == 'down':    
+        movedown()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX + 1] == '>' and direction == 'right':
+        movedown()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX - 1] == '>' and direction == 'left':
+        movedown()
+        return 1 
+    elif currentmap[Player.playerY - 1][Player.playerX] == '^' and direction == 'up':  		
+        moveup()
+        return 1
+    elif currentmap[Player.playerY + 1][Player.playerX] == '^' and direction == 'down':
+        moveup()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX + 1] == '^' and direction == 'right':
+        moveup()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX - 1] == '^' and direction == 'left':
+        moveup()
+        return 1                    
     return 2
+
+def fightlist():
+	if floor == 'floor 1':
+		monster1.fight('player')
+	elif floor == 'floor 2':
+		monster1.fight('player')
+		monster2.fight('player')
+	elif floor == 'floor 3':
+		monster1.fight('player')
+		monster2.fight('player')
+		monster3.fight('player')
+	elif floor == 'floor 4':
+		monster1.fight('player')
+		monster2.fight('player')
+		monster3.fight('player')
+		monster4.fight('player')
+	elif floor == 'floor 5':
+		monster1.fight('player')
+		monster2.fight('player')
+		monster3.fight('player')
+		monster4.fight('player')
+		monster5.fight('player')		
+	elif floor ==  'boss room':
+		bossmonster.fight('player')
 
 def move(char):
     global currentmap
+    global floor
     if char == curses.KEY_RIGHT and currentmap[Player.playerY][Player.playerX + 1] != '#':
-        end = store('right')
+        end = check('right')
         if end == 1:
             end = 2
             return 0
@@ -316,10 +678,10 @@ def move(char):
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerX = Player.playerX + 1
         if wait == 0:
-        	monster1.fight('player')
+        	fightlist()
         drawmap()
     elif char == curses.KEY_LEFT and currentmap[Player.playerY][Player.playerX - 1] != '#':
-        end = store('left')
+        end = check('left')
         if end == 1:
             end = 2
             return 0
@@ -327,10 +689,10 @@ def move(char):
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerX = Player.playerX - 1
         if wait == 0:
-        	monster1.fight('player')
+        	fightlist()
         drawmap()
     elif char == curses.KEY_UP and currentmap[Player.playerY - 1][Player.playerX] != '#':
-        end = store('up')
+        end = check('up')
         if end == 1:
             end = 2
             return 0
@@ -338,10 +700,10 @@ def move(char):
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerY = Player.playerY - 1
         if wait == 0:
-        	monster1.fight('player')
+        	fightlist()
         drawmap()
     elif char == curses.KEY_DOWN and currentmap[Player.playerY + 1][Player.playerX] != '#':
-        end = store('down')
+        end = check('down')
         if end == 1:
             end = 2
             return 0
@@ -349,11 +711,32 @@ def move(char):
         currentmap[Player.playerY][Player.playerX] = '.'
         Player.playerY = Player.playerY + 1
         if wait == 0:
-        	monster1.fight('player')
+        	fightlist()
         drawmap()
-    monster1.monsterMove()
-    monster1.fight('monster')
-
+    if floor == 'floor 1':
+		monster1.monsterMove()
+    elif floor == 'floor 2':
+		monster1.monsterMove()
+		monster2.monsterMove()
+    elif floor == 'floor 3':
+		monster1.monsterMove()
+		monster2.monsterMove()
+		monster3.monsterMove()
+    elif floor == 'floor 4':
+		monster1.monsterMove()
+		monster2.monsterMove()
+		monster3.monsterMove()
+		monster4.monsterMove()
+    elif floor == 'floor 5':
+		monster1.monsterMove()
+		monster2.monsterMove()
+		monster3.monsterMove()
+		monster4.monsterMove()
+		monster5.monsterMove()		
+    elif floor ==  'boss room':
+		bossmonster.move()        		
+    fightlist()
+    
 def inventory():
 	screen.clear()
 	drawmap()
@@ -474,25 +857,25 @@ def inventory():
 			screen.move(16, 70)						
 		elif cursermove == 32 and screen.getyx() == (18, 65) and Player.equipable['shield']['equiped'] == 'equiped' and Player.equipable['shield']['has'] == True: # shield - equiped
 			Player.equipable['shield']['equiped'] = 'unequiped'
-			Player.attack = Player.defence - Player.equipable['shield']['defence']
+			Player.healthmax = Player.defence - Player.equipable['shield']['defence']
 			screen.addstr(18, 54, '3. shield: %s'%(Player.equipable['shield']['equiped']))
 			disptop()
 			screen.move(18, 65)
 		elif cursermove == 32 and screen.getyx() == (18, 65) and Player.equipable['shield']['equiped'] == 'unequiped' and Player.equipable['shield']['has'] == True: # shield - unequiped
 			Player.equipable['shield']['equiped'] = 'equiped'
-			Player.attack = Player.defence + Player.equipable['shield']['defence']
+			Player.healthmax = Player.defence + Player.equipable['shield']['defence']
 			screen.addstr(18, 54, '3. shield: %s  '%(Player.equipable['shield']['equiped']))
 			disptop()
 			screen.move(18, 65)						
 		elif cursermove == 32 and screen.getyx() == (19, 69) and Player.equipable['big shield']['equiped'] == 'equiped' and Player.equipable['big shield']['has'] == True: # big shield - equiped
 			Player.equipable['big shield']['equiped'] = 'unequiped'
-			Player.attack = Player.defence - Player.equipable['big shield']['defence']	
+			Player.healthmax = Player.defence - Player.equipable['big shield']['defence']	
 			screen.addstr(19, 54, '4. big shield: %s'%(Player.equipable['big shield']['equiped']))
 			disptop()
 			screen.move(19, 69)			
 		elif cursermove == 32 and screen.getyx() == (19, 69) and Player.equipable['big shield']['equiped'] == 'unequiped' and Player.equipable['big shield']['has'] == True: # big shield - unequiped
 			Player.equipable['big shield']['equiped'] = 'equiped'
-			Player.attack = Player.defence + Player.equipable['big shield']['defence']
+			Player.healthmax = Player.defence + Player.equipable['big shield']['defence']
 			screen.addstr(19, 54, '4. big shield: %s  '%(Player.equipable['big shield']['equiped']))
 			disptop()
 			screen.move(19, 69)
@@ -510,7 +893,13 @@ curses.curs_set(0)
 titlescreen()
 playerset()
 
-monster1 = Monster()
+bossmonster = Monster(True)
+monster1 = Monster(False)
+monster2 = Monster(False)
+monster3 = Monster(False)
+monster4 = Monster(False)
+monster5 = Monster(False)
+
 
 try:
     while True:
