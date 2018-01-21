@@ -129,7 +129,7 @@ class Monster(object):
 			Player.gold = Player.gold + self.monsterlvl * 5
 			self.monsterlvl = self.monsterlvl + 1
 			self.monsterhp = self.monsterlvl * 10	
-			Player.health = Player.healthmax
+			Player.health = Player.healthmax/2
 			screen.clear()
 			drawmap()
 			dispinv()
@@ -144,11 +144,14 @@ class Player():
 	playerX = 2
 	playerY = 2
 	consumables = {'potion': {'amount': 1, 'cost': 50}, 'better potion': {'amount': 0, 'cost': 100}, 'full heal': {'amount': 0, 'cost': 200}}
-	equipable = {'basic sword':{'has': True, 'dmg': 1, 'equiped': True},'broadsword':{'has': False, 'dmg': 3, 'equiped': False},'shortsword':{'has': False, 'dmg': 2, 'equiped': False}, 'sheild':{'has': False, 'defence': 5, 'equiped': False}, 'big sheild':{'has': False, 'defence': 10, 'equiped': False}},
+	equipable = {'basic sword': {'has': True, 'dmg': 1, 'equiped': 'equiped'}, 'broadsword': {'has': False, 'dmg': 3, 'equiped': 'unequiped'}, 'shield':{'has': False, 'defence': 5, 'equiped': 'unequiped'}, 'big shield': {'has': False, 'defence': 10, 'equiped': 'unequiped'}}
 	health = 20
 	healthmax = 20
 	gold = 100
 	lvl = 1
+	attack = 6
+	defence = 5
+	
 	
 	#def __init__(self, name):
 		#self.name = name
@@ -191,25 +194,25 @@ def dispinv():
 def disptop():
 	if floor == 'village':
 		screen.addstr(3, 32, '      Town      ')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'floor 1':
 		screen.addstr(3, 32, 'Dungeon  Floor 1')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'floor 2':
 		screen.addstr(3, 32, 'Dungeon  Floor 2')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'floor 3':
 		screen.addstr(3, 32, 'Dungeon  Floor 3')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'floor 4':
 		screen.addstr(3, 32, 'Dungeon  Floor 4')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'final floor':
 		screen.addstr(3, 32, '  Final  Floor  ')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	elif floor == 'boss room':
 		screen.addstr(3, 32, '   Boss  Room   ')
-		screen.addstr(4, 32, '----------------')
+		screen.addstr(4, 31, '------------------')
 	screen.addstr(0, 5, '++++++++++++++++++')
 	screen.addstr(1, 5, '+ HEALTH:%s /%s  '%(Player.health, Player.healthmax))
 	screen.addstr(1, 22, '+')
@@ -218,6 +221,8 @@ def disptop():
 	screen.addstr(1, 32, '+   GOLD:%s   '%(Player.gold))
 	screen.addstr(1, 47, '+')
 	screen.addstr(2, 32, '++++++++++++++++')
+	screen.addstr(3, 11, 'ATK:%s'%(Player.attack))
+	screen.addstr(3, 64, 'DEF:%s'%(Player.defence))
 	if Player.lvl < 10:
 		screen.addstr(0, 57, '++++++++++++++++++')
 		screen.addstr(1, 57, '+      LVL:%s     +'%(Player.lvl))
@@ -319,28 +324,148 @@ def move(char):
     monster1.fight('monster')
 
 def inventory():
-    screen.clear()
-    screen.addstr(0, 0, 'gold:')
-    screen.addstr(0, 5, '%s'%(Player.gold))
-    screen.addstr(0, 17, '%s/%s'%(Player.health, Player.healthmax))
-    screen.addstr(0, 26, '| Inventory | e:exit')
-    screen.addstr(1, 0, 'Press the number next to the item you want to use')
-    screen.addstr(2, 0, '1. potions: %s'%(Player.consumables['potion']['amount']))
-    itemchoice = screen.getch()
-    if itemchoice == 101:
-        return True
-    elif itemchoice == 49 and Player.consumables['potion']['amount'] != 0:
-        if Player.health + 10 >= Player.healthmax and Player.health != Player.healthmax:
-            Player.health = Player.healthmax
-            Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
-        elif Player.health + 10 < Player.healthmax:
-            Player.health = Player.health + 10
-            Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
-        elif Player.health == Player.healthmax:
-            return False
-        return True
-    else:
-        return False
+	screen.clear()
+	drawmap()
+	disptop()
+	screen.addstr(14, 34, 'Inventory')
+	screen.addstr(15, 33, '-----------')
+	screen.addstr(16, 31, 'press e to exit')
+	screen.addstr(17, 27, 'press space to use/equip')
+	screen.addstr(18, 27, 'use arrow keys to select')
+	screen.addstr(14, 5, 'Consumables:')
+	screen.addstr(15, 4, '--------------')
+	screen.addstr(14, 58, 'Weapons / Shields:')
+	screen.addstr(15, 57, '--------------------')
+	screen.addstr(16, 2, '1. potions: %s'%(Player.consumables['potion']['amount']))
+	screen.addstr(17, 2, '2. better potions: %s'%(Player.consumables['better potion']['amount']))	
+	screen.addstr(18, 2, '3. full heals: %s'%(Player.consumables['full heal']['amount']))
+	screen.addstr(16, 54, '1. basic sword: %s'%(Player.equipable['basic sword']['equiped']))
+	if Player.equipable['broadsword']['has'] == True:
+		screen.addstr(17, 54, '2. broadsword: %s'%(Player.equipable['broadsword']['equiped']))
+	elif Player.equipable['broadsword']['has'] == False:	
+		screen.addstr(17, 54, '2. broadsword: Dont have')
+		
+	if Player.equipable['shield']['has'] == True:
+		screen.addstr(18, 54, '3. shield: %s'%(Player.equipable['shield']['equiped']))
+	elif Player.equipable['shield']['has'] == False:	
+		screen.addstr(18, 54, '3. shield: Dont have')
+		
+	if Player.equipable['big shield']['has'] == True:
+		screen.addstr(19, 54, '4. big shield: %s'%(Player.equipable['big shield']['equiped']))
+	elif Player.equipable['big shield']['has'] == False:	
+		screen.addstr(19, 54, '4. big shield: Dont have')			
+	
+	curses.curs_set(1)
+	screen.move(16, 14)
+	cursermove = 1
+	while cursermove != 101:
+		cursermove = screen.getch()
+		if cursermove == curses.KEY_DOWN and screen.getyx() == (16, 14):
+			screen.move(17, 21) 
+		elif cursermove == curses.KEY_DOWN and screen.getyx() == (17, 21):
+			screen.move(18, 17)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (18, 17):
+			screen.move(17, 21)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (17, 21):
+			screen.move(16, 14)
+		elif cursermove == curses.KEY_DOWN and screen.getyx() == (16, 70):
+			screen.move(17, 69) 
+		elif cursermove == curses.KEY_DOWN and screen.getyx() == (17, 69):
+			screen.move(18, 65)
+		elif cursermove == curses.KEY_DOWN and screen.getyx() == (18, 65):
+			screen.move(19, 69)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (19, 69):
+			screen.move(18, 65)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (18, 65):
+			screen.move(17, 69) 
+		elif cursermove == curses.KEY_UP and screen.getyx() == (17, 69):
+			screen.move(16, 70)
+		elif cursermove == curses.KEY_RIGHT:
+			screen.move(16, 70)
+		elif cursermove == curses.KEY_LEFT:
+			screen.move(16, 14)	
+#where it starts to check for enters	
+		elif cursermove == 32 and screen.getyx() == (16, 14) and Player.consumables['potion']['amount'] > 0: # potion
+			if Player.health + 20 >= Player.healthmax and Player.health != Player.healthmax :
+				Player.health = Player.healthmax
+				Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
+				screen.addstr(16, 2, '1. potions: %s'%(Player.consumables['potion']['amount']))
+				disptop()
+				screen.move(16, 14)				
+			elif Player.health + 20 < Player.healthmax:
+				Player.health = Player.health + 20
+				Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] - 1
+				screen.addstr(16, 2, '1. potions: %s'%(Player.consumables['potion']['amount']))
+				disptop()
+				screen.move(16, 14)
+		elif cursermove == 32 and screen.getyx() == (17, 21) and Player.consumables['better potion']['amount'] > 0: # better potion
+			if Player.health + 50 >= Player.healthmax and Player.health != Player.healthmax :
+				Player.health = Player.healthmax
+				Player.consumables['better potion']['amount'] = Player.consumables['better potion']['amount'] - 1
+				screen.addstr(17, 2, '2. better potions: %s'%(Player.consumables['better potion']['amount']))
+				disptop()
+				screen.move(17, 21)
+			elif Player.health + 50 < Player.healthmax:
+				Player.health = Player.health + 50
+				Player.consumables['better potion']['amount'] = Player.consumables['better potion']['amount'] - 1
+				screen.addstr(17, 2, '2. better potions: %s'%(Player.consumables['better potion']['amount']))
+				disptop()
+				screen.move(17, 21)			
+		elif cursermove == 32 and screen.getyx() == (18, 17) and Player.consumables['full heal']['amount'] > 0: # full heal
+			Player.health = Player.healthmax
+			Player.consumables['full heal']['amount'] = Player.consumables['full heal']['amount'] - 1	
+			screen.addstr(18, 2, '3. full heals: %s'%(Player.consumables['full heal']['amount']))
+			disptop()
+			screen.move(18, 17)		
+		elif cursermove == 32 and screen.getyx() == (16, 70) and Player.equipable['basic sword']['equiped'] == 'equiped': # basic sword - equiped
+			Player.equipable['basic sword']['equiped'] = 'unequiped'
+			Player.attack = Player.attack - Player.equipable['basic sword']['dmg']
+			screen.addstr(16, 54, '1. basic sword: %s'%(Player.equipable['basic sword']['equiped']))
+			disptop()
+			screen.move(16, 70)
+		elif cursermove == 32 and screen.getyx() == (16, 70) and Player.equipable['basic sword']['equiped'] == 'unequiped': # basic sword - unequiped
+			Player.equipable['basic sword']['equiped'] = 'equiped'
+			Player.attack = Player.attack + Player.equipable['basic sword']['dmg']
+			screen.addstr(16, 54, '1. basic sword: %s  '%(Player.equipable['basic sword']['equiped']))
+			disptop()
+			screen.move(16, 70)			
+		elif cursermove == 32 and screen.getyx() == (17, 69) and Player.equipable['broadsword']['equiped'] == 'equiped' and Player.equipable['broadsword']['has'] == True: # broad sword - equiped
+			Player.equipable['broadsword']['equiped'] = 'unequiped'
+			Player.attack = Player.attack - Player.equipable['broadsword']['dmg']
+			screen.addstr(17, 54, '2. broadsword: %s'%(Player.equipable['broadsword']['equiped']))
+			disptop()
+			screen.move(16, 70)		
+		elif cursermove == 32 and screen.getyx() == (17, 69) and Player.equipable['broadsword']['equiped'] == 'unequiped' and Player.equipable['broadsword']['has'] == True: # broad sword - unequiped
+			Player.equipable['broadsword']['equiped'] = 'equiped'
+			Player.attack = Player.attack + Player.equipable['broadsword']['dmg']	
+			screen.addstr(17, 54, '2. broadsword: %s  '%(Player.equipable['broadsword']['equiped']))
+			disptop()
+			screen.move(16, 70)						
+		elif cursermove == 32 and screen.getyx() == (18, 65) and Player.equipable['shield']['equiped'] == 'equiped' and Player.equipable['shield']['has'] == True: # shield - equiped
+			Player.equipable['shield']['equiped'] = 'unequiped'
+			Player.attack = Player.defence - Player.equipable['shield']['defence']
+			screen.addstr(18, 54, '3. shield: %s'%(Player.equipable['shield']['equiped']))
+			disptop()
+			screen.move(18, 65)
+		elif cursermove == 32 and screen.getyx() == (18, 65) and Player.equipable['shield']['equiped'] == 'unequiped' and Player.equipable['shield']['has'] == True: # shield - unequiped
+			Player.equipable['shield']['equiped'] = 'equiped'
+			Player.attack = Player.defence + Player.equipable['shield']['defence']
+			screen.addstr(18, 54, '3. shield: %s  '%(Player.equipable['shield']['equiped']))
+			disptop()
+			screen.move(18, 65)						
+		elif cursermove == 32 and screen.getyx() == (19, 69) and Player.equipable['big shield']['equiped'] == 'equiped' and Player.equipable['big shield']['has'] == True: # big shield - equiped
+			Player.equipable['big shield']['equiped'] = 'unequiped'
+			Player.attack = Player.defence - Player.equipable['big shield']['defence']	
+			screen.addstr(19, 54, '4. big shield: %s'%(Player.equipable['big shield']['equiped']))
+			disptop()
+			screen.move(19, 69)			
+		elif cursermove == 32 and screen.getyx() == (19, 69) and Player.equipable['big shield']['equiped'] == 'unequiped' and Player.equipable['big shield']['has'] == True: # big shield - unequiped
+			Player.equipable['big shield']['equiped'] = 'equiped'
+			Player.attack = Player.defence + Player.equipable['big shield']['defence']
+			screen.addstr(19, 54, '4. big shield: %s  '%(Player.equipable['big shield']['equiped']))
+			disptop()
+			screen.move(19, 69)
+	curses.curs_set(0)							
 
 sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=20, cols=80))
 
