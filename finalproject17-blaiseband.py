@@ -236,27 +236,58 @@ def drawmap():
 	screen.addstr(6, 0, '\n'.join(''.join(str(cell) for cell in row) for row in currentmap))
 
 def buy():
-    amount = 0
-    while amount >= 0:
-        screen.clear()
-        screen.addstr(0, 0, 'gold:')
-        screen.addstr(0, 6, '%s'%(Player.gold))
-        screen.addstr(0, 10, '| Store | e:exit')
-        screen.addstr(1, 0, 'Press the number next to the item you want to buy')
-        screen.addstr(2, 0, '1. potion: 50 gold')
-        itemchoice = screen.getch()
-        if itemchoice == 101:
-            return 0
-        screen.clear()
-        screen.addstr(1, 0, 'How many?')
-        curses.curs_set(1)
-        curses.echo()
-        amount = int(screen.getstr())
-        if itemchoice == 49 and Player.gold >= 50 * amount:
-        	Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] + amount
-        	Player.gold = Player.gold - (Player.consumables['potion']['cost'] * amount)	
-        curses.curs_set(0)
-        curses.noecho()
+	screen.clear()
+	drawmap()
+	disptop()
+	screen.addstr(14, 33, '   Store   ')
+	screen.addstr(15, 33, '-----------')
+	screen.addstr(16, 31, 'press e to exit')
+	screen.addstr(17, 30, 'press space to buy')
+	screen.addstr(18, 27, 'use arrow keys to select')	
+	screen.addstr(14, 5, '  Inventory:  ')
+	screen.addstr(15, 4, '--------------')
+	screen.addstr(16, 2, '1. potions: %s'%(Player.consumables['potion']['amount']))
+	screen.addstr(17, 2, '2. better potions: %s'%(Player.consumables['better potion']['amount']))	
+	screen.addstr(18, 2, '3. full heals: %s'%(Player.consumables['full heal']['amount']))
+	screen.addstr(14, 62, 'Buy:')
+	screen.addstr(15, 61, '------')
+	screen.addstr(16, 59, '1. potion:$%s'%(Player.consumables['potion']['cost']))
+	screen.addstr(17, 59, '2. better potion:$%s'%(Player.consumables['better potion']['cost']))
+	screen.addstr(18, 59, '3. full heal:$%s'%(Player.consumables['full heal']['cost']))
+	
+	screen.move(16, 70)
+	curses.curs_set(1)
+	cursermove = 1	
+	while cursermove != 101:
+		cursermove = screen.getch()
+		
+		if cursermove == curses.KEY_DOWN and screen.getyx() == (16, 70):
+			screen.move(17, 77) 
+		elif cursermove == curses.KEY_DOWN and screen.getyx() == (17, 77):
+			screen.move(18, 73)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (18, 73):
+			screen.move(17, 77)
+		elif cursermove == curses.KEY_UP and screen.getyx() == (17, 77):
+			screen.move(16, 70)
+		elif cursermove == 32 and Player.gold >= Player.consumables['potion']['cost'] and screen.getyx() == (16, 70):
+			Player.consumables['potion']['amount'] = Player.consumables['potion']['amount'] +1
+			Player.gold = Player.gold - Player.consumables['potion']['cost']
+			disptop()
+			screen.addstr(16, 2, '1. potions: %s'%(Player.consumables['potion']['amount']))
+			screen.move(16, 70)
+		elif cursermove == 32 and Player.gold >= Player.consumables['better potion']['cost'] and screen.getyx() == (17, 77):
+			Player.consumables['better potion']['amount'] = Player.consumables['better potion']['amount'] +1
+			Player.gold = Player.gold - Player.consumables['better potion']['cost']
+			disptop()
+			screen.addstr(17, 2, '2. better potions: %s'%(Player.consumables['better potion']['amount']))
+			screen.move(17, 77)
+		elif cursermove == 32 and Player.gold >= Player.consumables['full heal']['cost'] and screen.getyx() == (18, 73):
+			Player.consumables['full heal']['amount'] = Player.consumables['full heal']['amount'] +1
+			Player.gold = Player.gold - Player.consumables['full heal']['cost']
+			disptop()
+			screen.addstr(18, 2, '3. full heal: %s'%(Player.consumables['full heal']['amount']))
+			screen.move(18, 73)						
+	curses.curs_set(0)
 
 def store(direction):
     global currentmap
