@@ -69,7 +69,7 @@ bossroom = numpy.array([
 
 village = numpy.array([
 ['#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'],
-['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
+['#','.','.','.','#','.','.','#','#','#','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','P','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
 ['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','#'],
 ['#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#','>','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','@','#'],
 ['#','.','.','#','#','#','.','.','.','.','.','.','.','.','.','.','#','#','#','#','#','#','.','.','.','.','#','#','#','#','#','#','#','.','.','.','.','.','#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#'],
@@ -80,6 +80,7 @@ village = numpy.array([
 
 currentmap = village
 coninv = False
+conjourn = False
 wait = 0
 floor = 'village'
 
@@ -280,6 +281,7 @@ class Player():
 	lvl = 1
 	attack = 6
 	defence = 0
+	name = 'nothing'
 	
 	
 	#def __init__(self, name):
@@ -597,6 +599,34 @@ def buy():
 			screen.move(18, 73)						
 	curses.curs_set(0)
 
+def elder():
+	global journal
+	
+	screen.clear()
+	disptop()
+	dispinv()
+	drawmap()
+	screen.addstr(5, 5, 'Hello traveler! You must be here for the dugeon.')
+	screen.getch()
+	screen.addstr(5, 5, 'What might your name be:                        ')
+	curses.echo()
+	curses.curs_set(1)
+	screen.move(5, 29)
+	Player.name = screen.getstr() 
+	curses.curs_set(0)
+	curses.noecho()
+	screen.addstr(5, 5, 'Hello %s. I am the town elder.'%(Player.name))
+	screen.getch()
+	screen.addstr(5, 5, 'Ah! I see you have a journal.                      ')
+	screen.getch()
+	screen.addstr(5, 5, 'May I take a look.             ')
+	screen.getch()
+	screen.addstr(5, 5, 'I have added everything you might need to know to it.')
+	screen.getch()
+	screen.addstr(5, 5, 'Good luck! The dungeon is just West of here.          ')
+	screen.getch()
+	journal = True
+
 def check(direction):
     global currentmap
     global floor
@@ -639,7 +669,19 @@ def check(direction):
         return 1
     elif currentmap[Player.playerY][Player.playerX - 1] == '^' and direction == 'left':
         moveup()
-        return 1                    
+        return 1
+    elif currentmap[Player.playerY - 1][Player.playerX] == 'P' and direction == 'up':  		
+        elder()
+        return 1
+    elif currentmap[Player.playerY + 1][Player.playerX] == 'P' and direction == 'down':
+        elder()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX + 1] == 'P' and direction == 'right':
+        elder()
+        return 1
+    elif currentmap[Player.playerY][Player.playerX - 1] == 'P' and direction == 'left':
+        elder()
+        return 1                                                
     return 2
 
 def fightlist():
@@ -736,6 +778,27 @@ def move(char):
     elif floor ==  'boss room':
 		bossmonster.move()        		
     fightlist()
+
+def Journal():
+	global journal
+	
+	screen.clear()
+	drawmap()
+	disptop()
+	exit = -1
+	while exit != 101:
+		if journal == False:
+			screen.addstr(14, 34, 'Journal         press e to exit')
+			screen.addstr(15, 33, '---------')
+			screen.addstr(16, 0, 'There is nothing written.')
+		elif journal == True:
+			screen.addstr(14, 34, 'Journal         press e to exit')
+			screen.addstr(15, 33, '---------')		
+			screen.addstr(16, 0, 'The Dungeon is a terrible place. It is filled with rats(r), goblins(g) and more!')
+			screen.addstr(17, 0, 'To descend into the dungeon walk up to the staircases that look like this: >')
+			screen.addstr(18, 0, 'To ascend up through the dungeon walk up to the staircase that look like this: ^')
+			screen.addstr(19, 0, 'In order to fight the monsters walk next to them.')
+		exit = screen.getch()
     
 def inventory():
 	screen.clear()
@@ -899,6 +962,7 @@ monster2 = Monster(False)
 monster3 = Monster(False)
 monster4 = Monster(False)
 monster5 = Monster(False)
+journal = False
 
 
 try:
@@ -913,6 +977,10 @@ try:
             while coninv == False:
                 coninv = inventory()
         coninv = False
+        if char == 106:
+        	while conjourn == False:
+        		conjourn = Journal()
+        conjourn = False	
 finally:
     curses.nocbreak(); screen.keypad(0); curses.echo()
     curses.endwin()
