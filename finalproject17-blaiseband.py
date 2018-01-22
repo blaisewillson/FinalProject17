@@ -86,7 +86,19 @@ floor = 'village'
 
 def won():
 	screen.clear()
-	screen.addstr(0, 0, 'u won')
+	screen.addstr(0, 11, ' __   _____  _   _   _   _    ___     _______ ')
+	screen.addstr(1, 11, ' \ \ / / _ \| | | | | | | |  / \ \   / / ____|')
+	screen.addstr(2, 11, '  \ V / | | | | | | | |_| | / _ \ \ / /|  _|  ')
+	screen.addstr(3, 11, '   | || |_| | |_| | |  _  |/ ___ \ V / | |___ ')
+	screen.addstr(4, 11, '   |_| \___/_\___/  |_|_|_/_/_  \_\_/  |_____|')
+	screen.addstr(5, 11, '            \ \      / / _ \| \ | |           ')
+	screen.addstr(6, 11, '             \ \ /\ / / | | |  \| |           ')
+	screen.addstr(7, 11, '              \ V  V /| |_| | |\  |           ')
+	screen.addstr(8, 11, '               \_/\_/  \___/|_| \_|           ')
+	screen.addstr(10, 11,'                   %s'%(Player.name))
+	screen.addstr(11, 11,'   ----------------------------------------   ')
+	screen.addstr(12, 11,'    LVL:%s                       GOLD:%s'%(Player.lvl, Player.gold))
+	                         
 	won1 = screen.getch()
 	sys.exit()
 
@@ -220,8 +232,8 @@ class Monster(object):
 							screen.addstr(1, 0,  '           _____/      \\_____')
 							screen.addstr(2, 0,  '          |  _     ___   _   ||')
 							screen.addstr(3, 0,  '          | | \     |   | \  ||')
-							screen.addstr(4, 0,  '          | |  |    |   |  | ||')
-							screen.addstr(5, 0,  '          | |_/     |   |_/  ||')
+							screen.addstr(4, 0,  '          | |  |    |   |  | ||    %s'%(Player.name))
+							screen.addstr(5, 0,  '          | |_/     |   |_/  ||   -----------------------')
 							screen.addstr(6, 0,  '          | | \     |   |    ||    LVL: %s'%(Player.lvl))
 							screen.addstr(7, 0,  '          | |  \    |   |    ||    GOLD: %s'%(Player.gold))
 							screen.addstr(8, 0,  '          | |   \. _|_. | .  ||')
@@ -317,6 +329,7 @@ def dispinv():
     screen.addstr(16, 5, '+ INVENTORY +')
     screen.addstr(17, 5, '+++++++++++++')
     screen.addstr(18, 5, '  -press i-  ')
+    screen.addstr(18, 27, 'use arrow keys to move')
     screen.addstr(15, 60, '+++++++++++++')
     screen.addstr(16, 60, '+  JOURNAL  +')
     screen.addstr(17, 60, '+++++++++++++')
@@ -384,9 +397,6 @@ def movedown():
 	global boosmonster
 	
 	if floor == 'village':
-		currentmap[monster1.monsterY][monster1.monsterX] = '.'
-		currentmap[Player.playerY][Player.playerX] = '.'
-		del monster1
 		floor = 'floor 1'
 		currentmap = floor1
 		currentmap[Player.playerY][Player.playerX] = '@'
@@ -404,6 +414,7 @@ def movedown():
 		drawmap()
 	elif floor == 'floor 2':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -417,6 +428,8 @@ def movedown():
 	elif floor == 'floor 3':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
 		del monster1
 		del monster2
 		del monster3
@@ -430,6 +443,9 @@ def movedown():
 		drawmap()
 	elif floor == 'floor 4':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
+		currentmap[monster4.monsterY][monster4.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -447,6 +463,10 @@ def movedown():
 	elif floor == 'final floor':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
+		currentmap[monster4.monsterY][monster4.monsterX] = '.'
+		currentmap[monster5.monsterY][monster5.monsterX] = '.'
 		del monster1
 		del monster2
 		del monster3
@@ -485,6 +505,7 @@ def moveup():
 		drawmap()
 	elif floor == 'floor 2':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -495,6 +516,8 @@ def moveup():
 		drawmap()      
 	elif floor == 'floor 3':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -507,6 +530,9 @@ def moveup():
 		drawmap()	
 	elif floor == 'floor 4':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
+		currentmap[monster4.monsterY][monster4.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -521,6 +547,10 @@ def moveup():
 		drawmap()
 	elif floor == 'final floor':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
+		currentmap[monster2.monsterY][monster2.monsterX] = '.'
+		currentmap[monster3.monsterY][monster3.monsterX] = '.'
+		currentmap[monster4.monsterY][monster4.monsterX] = '.'
+		currentmap[monster5.monsterY][monster5.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
 		del monster1
 		del monster2
@@ -699,7 +729,7 @@ def fightlist():
 		monster2.fight('player')
 		monster3.fight('player')
 		monster4.fight('player')
-	elif floor == 'floor 5':
+	elif floor == 'final floor':
 		monster1.fight('player')
 		monster2.fight('player')
 		monster3.fight('player')
@@ -769,14 +799,14 @@ def move(char):
 		monster2.monsterMove()
 		monster3.monsterMove()
 		monster4.monsterMove()
-    elif floor == 'floor 5':
+    elif floor == 'final floor':
 		monster1.monsterMove()
 		monster2.monsterMove()
 		monster3.monsterMove()
 		monster4.monsterMove()
 		monster5.monsterMove()		
     elif floor ==  'boss room':
-		bossmonster.move()        		
+		bossmonster.monsterMove()        		
     fightlist()
 
 def Journal():
