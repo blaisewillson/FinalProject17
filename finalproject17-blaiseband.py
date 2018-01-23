@@ -156,13 +156,13 @@ class Monster(object): #monster class
 				self.monsterX = random.randint(1, 77)
 				self.monsterY = random.randint(1, 6)
 			self.monsterlvl = 1
-			self.monsterhp = 150
-			self.basedmg1 = 30
-			self.basedmg2 = 60
+			self.monsterhp = 400
+			self.basedmg1 = 50
+			self.basedmg2 = 80
 			self.charactermon = 'M'
 			self.boss = True
 
-	def monsterMove(self):  #move function for monster 
+	def monsterMove(self):  #move function for monster
 		global currentmap
 		global wait
 		if floor != 'village' and self.monsterhp > 0:
@@ -351,10 +351,10 @@ def disptop():       #diplaying top of home screen
 	elif floor == 'boss room':
 		screen.addstr(3, 32, '   Boss  Room   ')
 		screen.addstr(4, 31, '------------------')
-	screen.addstr(0, 5, '++++++++++++++++++')
-	screen.addstr(1, 5, '+ HEALTH:%s /%s  '%(Player.health, Player.healthmax))
-	screen.addstr(1, 22, '+')
-	screen.addstr(2, 5, '++++++++++++++++++')
+	screen.addstr(0, 5, '+++++++++++++++++++')
+	screen.addstr(1, 5, '+ HEALTH:%s/%s  '%(Player.health, Player.healthmax))
+	screen.addstr(1, 23, '+')
+	screen.addstr(2, 5, '+++++++++++++++++++')
 	screen.addstr(0, 32, '++++++++++++++++')
 	screen.addstr(1, 32, '+   GOLD:%s   '%(Player.gold))
 	screen.addstr(1, 47, '+')
@@ -391,11 +391,12 @@ def movedown():          #makes the floors move down and adds and deletes monste
 	global boosmonster
 
 	if floor == 'village':
-		floor = 'floor 1'
-		currentmap = floor1
-		currentmap[Player.playerY][Player.playerX] = '@'
-		monster1 = Monster(False)
-		drawmap()
+	    currentmap[Player.playerY][Player.playerX] = '.'
+	    floor = 'floor 1'
+	    currentmap = floor1
+	    currentmap[Player.playerY][Player.playerX] = '@'
+	    monster1 = Monster(False)
+	    drawmap()
 	elif floor == 'floor 1':
 		currentmap[monster1.monsterY][monster1.monsterX] = '.'
 		currentmap[Player.playerY][Player.playerX] = '.'
@@ -735,7 +736,7 @@ def fightlist():  # monseters that are able to fight on each floor
 	elif floor ==  'boss room':
 		bossmonster.fight('player')
 
-def move(char):    #move the player also calls fight 
+def move(char):    #move the player also calls fight
     global currentmap
     global floor
     if char == curses.KEY_RIGHT and currentmap[Player.playerY][Player.playerX + 1] != '#':
