@@ -9,3 +9,6 @@ Helpful links: https://docs.python.org/2/library/curses.html (this link hepled f
 Helpful people: Vincent Lee, Samory Jean, Norton Jean(he was yelling at samory while samory helped me). 
 
 Link to Presentation: https://docs.google.com/presentation/d/1snFQeKOoyNbzr8OCwPSkM3ZbyjE6Ur8dOzcN8B_d6sY/edit#slide=id.g326723f5d8_0_7
+
+Flowchart link:
+https://drive.google.com/file/d/1gJIACuZqVld-nLZc-zqK17BNo1gRBTnO/view?usp=sharing 
